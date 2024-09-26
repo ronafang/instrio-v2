@@ -20,4 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-uvicorn.run(app, host="0.0.0.0", port=8000)
+uvicorn.run(app, host="0.0.0.0", port=443,
+    ssl_certfile="../../instrio.crt",
+    ssl_keyfile="../../instrio.key")
