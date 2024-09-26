@@ -4,6 +4,11 @@ from collections import deque
 from process import process
 import base64
 from io import BytesIO
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+KEY = os.getenv("KEY")
 
 API_BASE_URL = "https://api.instr.io"
 POLL_INTERVAL = 0.25
@@ -11,10 +16,10 @@ POLL_INTERVAL = 0.25
 task_queue = deque()
 
 async def poll_task():
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         while True:
             try:
-                async with session.get(f"{API_BASE_URL}/task") as response:
+                async with session.get(f"{API_BASE_URL}/task?key={KEY}") as response:
                     if response.status == 200:
                         print("waiting for response")
                         data = await response.json()
@@ -32,7 +37,7 @@ async def poll_task():
             await asyncio.sleep(POLL_INTERVAL)
 
 async def worker():
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         while True:
             if task_queue:
                 tid, raw_audio_base64 = task_queue.popleft()
