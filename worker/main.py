@@ -5,7 +5,7 @@ from process import process
 import base64
 from io import BytesIO
 
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "https://api.instr.io"
 POLL_INTERVAL = 0.25
 
 task_queue = deque()

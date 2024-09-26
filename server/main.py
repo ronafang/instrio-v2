@@ -15,7 +15,7 @@ for router in routers:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080", "https://instr.io"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
