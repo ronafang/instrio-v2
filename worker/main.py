@@ -16,14 +16,15 @@ async def poll_task():
             try:
                 async with session.get(f"{API_BASE_URL}/task") as response:
                     if response.status == 200:
+                        print("waiting for response")
                         data = await response.json()
+                        print("response")
                         if data.get("hasTask"):
                             tid = data.get("tid")
                             raw_audio = data.get("raw")
                             print(f"Task received: {tid}")
                             task_queue.append((tid, raw_audio))
-                        else:
-                            print("No task available")
+                        print("no task")
                     else:
                         print(f"Failed to fetch task: {response.status}")
             except Exception as e:

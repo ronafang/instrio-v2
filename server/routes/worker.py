@@ -12,6 +12,7 @@ async def get_task(tq: TaskQueue = Depends(get_tq)):
     if not task:
         return {"hasTask": False}
     else:
+        print("task given")
         return {
             "hasTask": True,
             "raw": base64.b64encode(task["raw"].getvalue()).decode("utf-8"),

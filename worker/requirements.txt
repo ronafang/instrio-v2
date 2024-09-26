@@ -6,3 +6,4 @@ torchaudio
 soundfile
 python-multipart
 diffq
+pywin32

@@ -11,7 +11,7 @@ router = APIRouter()
 async def post_task(file: UploadFile = File(...), tq: TaskQueue = Depends(get_tq)):
     raw = BytesIO(await file.read())
     event = asyncio.Event()
-    
+    print("convert request received")
     tid = tq.append(raw=raw, event=event)
 
     await event.wait()
