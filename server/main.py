@@ -5,7 +5,7 @@ import ssl
 import os
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain(certfile="../../fullchain.pem", keyfile="../../instrio.key", password=os.getenv("PASSWORD", ""))
+ssl_context.load_cert_chain(certfile="../../instrio.crt", keyfile="../../instrio.key", password=os.getenv("PASSWORD", ""))
 
 from routes.client import router as client_router
 from routes.worker import router as worker_router
