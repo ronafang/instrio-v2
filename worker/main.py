@@ -4,6 +4,11 @@ from collections import deque
 from process import process
 import base64
 from io import BytesIO
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+KEY = os.getenv("KEY")
 
 API_BASE_URL = "https://api.instr.io"
 POLL_INTERVAL = 0.25
@@ -14,7 +19,7 @@ async def poll_task():
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         while True:
             try:
-                async with session.get(f"{API_BASE_URL}/task?key=bae78ee29ff6671699ca2c859d5c2b71f36b90af0ad90ee8f96eb1fb881e5021") as response:
+                async with session.get(f"{API_BASE_URL}/task?key={KEY}") as response:
                     if response.status == 200:
                         print("waiting for response")
                         data = await response.json()
