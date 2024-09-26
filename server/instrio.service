@@ -1,0 +1,14 @@
+[Unit]
+Description=Instrio Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/instrio-v2/server
+ExecStart=/usr/bin/python3 /root/instrio-v2/server/main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
