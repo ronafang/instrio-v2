@@ -4,3 +4,4 @@ starlette
 asyncio
 aiohttp
 uvicorn
+dotenv

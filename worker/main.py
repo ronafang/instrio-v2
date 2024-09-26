@@ -11,10 +11,10 @@ POLL_INTERVAL = 0.25
 task_queue = deque()
 
 async def poll_task():
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         while True:
             try:
-                async with session.get(f"{API_BASE_URL}/task") as response:
+                async with session.get(f"{API_BASE_URL}/task?key=bae78ee29ff6671699ca2c859d5c2b71f36b90af0ad90ee8f96eb1fb881e5021") as response:
                     if response.status == 200:
                         print("waiting for response")
                         data = await response.json()
@@ -32,7 +32,7 @@ async def poll_task():
             await asyncio.sleep(POLL_INTERVAL)
 
 async def worker():
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         while True:
             if task_queue:
                 tid, raw_audio_base64 = task_queue.popleft()

@@ -1,13 +1,20 @@
-from fastapi import FastAPI, UploadFile, File, Form, Depends, APIRouter, Request
+from fastapi import FastAPI, UploadFile, File, Form, Depends, APIRouter, Request, Query, HTTPException
 from util.queue import TaskQueue
 from dependencies import get_tq
 import base64
 from io import BytesIO
+import os
 
 router = APIRouter()
 
 @router.get("/task")
-async def get_task(tq: TaskQueue = Depends(get_tq)):
+async def get_task(
+    key: str = Query(...), 
+    tq: TaskQueue = Depends(get_tq)
+):
+    if key != os.getenv("KEY"):
+        raise HTTPException(status_code=403, detail="Invalid key")
+
     task = tq.get()
     if not task:
         return {"hasTask": False}
