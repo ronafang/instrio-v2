@@ -7,4 +7,4 @@ soundfile
 python-multipart
 diffq
 pywin32
-dotenv
+python-dotenv

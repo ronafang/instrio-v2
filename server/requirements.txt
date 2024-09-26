@@ -4,4 +4,4 @@ starlette
 asyncio
 aiohttp
 uvicorn
-dotenv
+python-dotenv
