@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import ssl
+import os
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ssl_context.load_cert_chain(certfile="../../fullchain.pem", keyfile="../../instrio.key", password=os.getenv("PASSWORD", ""))
