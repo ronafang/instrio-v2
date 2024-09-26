@@ -12,8 +12,6 @@ async def get_task(
     key: str = Query(...), 
     tq: TaskQueue = Depends(get_tq)
 ):
-    print(key)
-    print(os.getenv("KEY"))
     if key != os.getenv("KEY"):
         raise HTTPException(status_code=403, detail="Invalid key")
 
