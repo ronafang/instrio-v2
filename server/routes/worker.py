@@ -3,6 +3,9 @@ from util.queue import TaskQueue
 from dependencies import get_tq
 import base64
 from io import BytesIO
+from dotenv import load_dotenv
+
+load_dotenv()
 import os
 
 router = APIRouter()
