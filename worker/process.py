@@ -27,6 +27,20 @@ def convert_tensor_to_ogg(tensor, sample_rate):
     buffer.seek(0)
     return buffer
 
+def convert_tensor_to_raw_pcm(tensor, sample_rate):
+    tensor_float32 = tensor.to(torch.float32)
+    
+    # Prepare a buffer to hold the raw PCM data
+    buffer = BytesIO()
+    
+    # Write the raw PCM data in float32 format to the buffer
+    buffer.write(tensor_float32.numpy().tobytes())
+    
+    # Seek to the start of the buffer
+    buffer.seek(0)
+    
+    return buffer
+
 def combine_audio_tensors(audio_tensors):
     combined_tensor = sum(audio_tensors)
     combined_tensor /= len(audio_tensors)
@@ -41,7 +55,7 @@ def process(ogg_data):
         print("took", end_time-start_time, "seconds")
         instr = combine_audio_tensors(out[:-1])
         instr2 = instr.cpu()
-        instr_buffer = convert_tensor_to_ogg(instr2, fs)
+        instr_buffer = convert_tensor_to_raw_pcm(instr2, fs)
 
         del tensor
         del out

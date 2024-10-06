@@ -21,15 +21,12 @@ async def poll_task():
             try:
                 async with session.get(f"{API_BASE_URL}/task?key={KEY}") as response:
                     if response.status == 200:
-                        print("waiting for response")
                         data = await response.json()
-                        print("response")
                         if data.get("hasTask"):
                             tid = data.get("tid")
                             raw_audio = data.get("raw")
                             print(f"Task received: {tid}")
                             task_queue.append((tid, raw_audio))
-                        print("no task")
                     else:
                         print(f"Failed to fetch task: {response.status}")
             except Exception as e:
@@ -48,7 +45,7 @@ async def worker():
                     processed_audio = process(audio_data).getvalue()
                     
                     data = aiohttp.FormData()
-                    data.add_field('completion', processed_audio, filename='audio.ogg', content_type='audio/ogg')
+                    data.add_field('completion', processed_audio, filename='audio.pcm', content_type='audio/pcm')
                     data.add_field('tid', tid)
                     async with session.put(f"{API_BASE_URL}/task", data=data) as response:
                         if response.status == 200:
@@ -58,7 +55,7 @@ async def worker():
                 except Exception as e:
                     print(f"Error processing task {tid}: {e}")
             else:
-                await asyncio.sleep(0.25)
+                await asyncio.sleep(0.1)
 
 async def main():
     await asyncio.gather(poll_task(), worker())
